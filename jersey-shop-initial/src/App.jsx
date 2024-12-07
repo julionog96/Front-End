@@ -6,6 +6,8 @@ import Item from './components/items';
 
 function App() {
 
+    const shopName = "Jersey Shop Made with React JS";
+    
     const [items, setItems] = useState(
         [
             {
@@ -90,11 +92,19 @@ function App() {
                 isInBag: false
             }
         ]
-    );
-
+    );    
+    
     const itemsInBag = items.filter(item => item.isInBag);
 
-    const shopName = "Jersey Shop Made with React JS";
+    function selectHandler(id) {
+        let item = items.filter(item => item.id === id)[0];
+        item.isInBag = !item.isInBag;
+        /*se o id do elemento for igual ao id recebido da função, o set
+        vai retornar o novo elemento da função, mas se o id for diferente, 
+        vai retornar apenas o que já tava no array original.*/
+        setItems(items.map(el => el.id === id ? item : el));
+    }
+
 
     return ( 
         <>
@@ -103,7 +113,7 @@ function App() {
                 
                 { items.map(item => 
                     <Item 
-                        selectProduct={(id) => setItems([])}
+                        selectProduct={(id) => selectHandler(id)}
                         item={item} 
                         key={item.id} 
                         />
